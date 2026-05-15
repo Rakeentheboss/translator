@@ -65,8 +65,7 @@ st.markdown(
 )
 
 # Sidebar
-with st.sidebar:
-    st.header("Settings")
+
 
 target_language = st.selectbox(
     "Select target language",
@@ -85,7 +84,8 @@ lang_map = {
     "Spanish": "es",
     "German": "de",
     "Japanese": "ja",
-    "Chinese": "zh-cn"
+    "Chinese": "zh-cn",
+    "Urdu": "ur"
 }
 
 # Input
@@ -125,7 +125,12 @@ Text:
             translated_text = response.choices[0].message.content.strip()
 
         # OUTPUT SECTION
-        if target_display == "Audio":
+        if target_display == "Text":
+            st.markdown('<div class="result-box">', unsafe_allow_html=True)
+            st.subheader("Translated Text:")
+            st.write(translated_text)
+            st.markdown('</div>', unsafe_allow_html=True)
+        else:
             tts = gTTS(
                 translated_text,
                 lang=lang_map[target_language]
@@ -134,8 +139,4 @@ Text:
             tts.save(audio_file)
             st.audio(audio_file, format="audio/mp3")
 
-        else:
-            st.markdown('<div class="result-box">', unsafe_allow_html=True)
-            st.subheader("Translated Text:")
-            st.write(translated_text)
-            st.markdown('</div>', unsafe_allow_html=True)
+       
